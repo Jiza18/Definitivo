@@ -46,11 +46,19 @@ public class PokemonApi {
 
                 Pokemon pokemon =  new Pokemon();
                 pokemon.setName(jsonPokemon.getString("name"));
+                pokemon.setUrlInfo(jsonPokemon.getString("url"));
+
+                String info = HttpUtils.get(pokemon.getUrlInfo());
+                JSONObject jsonInfo = jsonPokemons.getJSONObject(i);
+                pokemon.setAbility(jsonInfo.getString("ability"));
+
 
                 pokemos.add(pokemon);
             }
         }catch (JSONException e){
             e.printStackTrace();
+        }catch(IOException ignore){
+
         }
 
         return pokemos;

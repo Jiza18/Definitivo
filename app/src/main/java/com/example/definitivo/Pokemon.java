@@ -2,23 +2,33 @@ package com.example.definitivo;
 
 public class Pokemon {
     String name;
-    String skill;
+    String ability;
     String power;
+    String urlInfo;
 
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getSkill() {
-        return skill;
+    public String getAbility() {
+        return ability;
     }
 
-    public void setSkill(String skill) {
-        this.skill = skill;
+    public void setAbility(String ability) {
+        this.ability = ability;
+    }
+
+    public String getUrlInfo() {
+        return urlInfo;
+    }
+
+    public void setUrlInfo(String urlInfo) {
+        this.urlInfo = urlInfo;
     }
 
     public String getPower() {
@@ -33,7 +43,7 @@ public class Pokemon {
     public String toString() {
         return "Pokemon{" +
                 "name='" + name + '\'' +
-                ", skill='" + skill + '\'' +
+                ", skill='" + ability + '\'' +
                 ", power='" + power + '\'' +
                 '}';
     }
