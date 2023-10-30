@@ -29,7 +29,7 @@ public class PokemonApi {
 
     private ArrayList<Pokemon> doCall(String url) {
         try {
-            Log.d("log",url);
+            Log.d("tuViejita",url);
             String JsonResponse = HttpUtils.get(url);
             return processJson(JsonResponse);
         } catch (IOException e) {
@@ -54,18 +54,17 @@ public class PokemonApi {
                 String info = HttpUtils.get(pokemon.getUrlInfo());
                 JSONObject infoJson = new JSONObject(info);
                 pokemon.setHeight(infoJson.getInt("height"));
-                pokemon.setWeight(infoJson.getInt("wight"));
+                pokemon.setWeight(infoJson.getInt("weight"));
 
                 pokemon.setImage(infoJson.getJSONObject("sprites").getString("front_default"));
 
                 pokemos.add(pokemon);
             }
-        }catch (JSONException e){
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            Log.d("tuViejitaError",e.getMessage());
         }
 
+        Log.d("tuViejita2",pokemos.toString());
         return pokemos;
     }
 

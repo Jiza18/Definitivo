@@ -20,8 +20,7 @@ public class PokemonViewModel extends AndroidViewModel {
         super(application);
 
         this.app = application;
-        this.pokeDB = PokeDB.getDatabase(
-                this.getApplication());
+        this.pokeDB = PokeDB.getDatabase(this.getApplication());
         this.dao = pokeDB.getPokemonDao();
     }
 

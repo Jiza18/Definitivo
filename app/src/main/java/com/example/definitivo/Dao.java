@@ -8,7 +8,7 @@ import java.util.List;
 @androidx.room.Dao
 public interface Dao {
 
-    @Query("select * from pokemon")
+    @Query("select * from Pokemon")
     LiveData<List<Pokemon>> getPokemons();
 
     @Insert
