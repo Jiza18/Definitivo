@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.definitivo.databinding.FragmentFirstBinding;
@@ -26,8 +29,8 @@ import java.util.concurrent.Executors;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-    private ArrayAdapter<Pokemon> adapter;
-    ArrayList<Pokemon> items;
+    private PokemonAdapter adapter;
+    private PokemonViewModel viewModel;
 
 
     @Override
@@ -45,23 +48,20 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] data = {
-                "Pikachu",
-                "Charmander",
-                "Charizar",
-                "Y otro"
-        };
-
-        items = new ArrayList<>();
-
-        adapter = new ArrayAdapter<>(
-                getContext(),
-                R.layout.lv_pokemon_row,
-                R.id.txtPokemon,
-                items
-        );
+        adapter = new PokemonAdapter(getContext(), R.layout.row_pokemon, new ArrayList<Pokemon>());
 
         binding.lvPokemon.setAdapter(adapter);
+
+        viewModel = new ViewModelProvider(this).get(PokemonViewModel.class);
+
+        viewModel.getPokemons().observe(
+                getViewLifecycleOwner(), pokemons -> {
+                    adapter.clear();
+                    adapter.addAll(pokemons);
+                }
+        );
+
+        viewModel.refresh();
 
     }
 
@@ -78,35 +78,16 @@ public class FirstFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            refresh();
-            return true;
+            viewModel.refresh();
+            Toast.makeText(getContext(), "Refresh", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-     void refresh(){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        executor.execute(() -> {
-            PokemonApi api = new PokemonApi();
-            ArrayList<Pokemon> result = api.getPokemonsSimple();
-
-            handler.post(() -> {
-               adapter.clear();
-               for (Pokemon pokemon : result){
-                   adapter.add(pokemon);
-               }
-            });
-        });
-    }
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
 }

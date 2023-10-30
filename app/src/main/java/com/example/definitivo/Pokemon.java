@@ -1,10 +1,21 @@
 package com.example.definitivo;
 
-public class Pokemon {
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
+
+
+@Entity
+public class Pokemon implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    int id;
     String name;
     String ability;
-    String power;
+    int height;
+    int weight;
     String urlInfo;
+    String image;
 
     public String getName() {
         return name;
@@ -23,6 +34,22 @@ public class Pokemon {
         this.ability = ability;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
     public String getUrlInfo() {
         return urlInfo;
     }
@@ -31,20 +58,32 @@ public class Pokemon {
         this.urlInfo = urlInfo;
     }
 
-    public String getPower() {
-        return power;
+    public int getId() {
+        return id;
     }
 
-    public void setPower(String power) {
-        this.power = power;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override
     public String toString() {
         return "Pokemon{" +
-                "name='" + name + '\'' +
-                ", skill='" + ability + '\'' +
-                ", power='" + power + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", ability='" + ability + '\'' +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", urlInfo='" + urlInfo + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
